@@ -1,0 +1,46 @@
+{
+    "albums": [
+        {
+            "name": "Mayhem",
+            "artist": "Lady Gaga",
+            "spotifyId": "2MHUaRi9OCyTN02SoyRRBJ",
+            "price": "$40",
+            "featured": true
+        },
+        {
+            "name": "Hit Me Hard and Soft",
+            "artist": "Billie Eilish",
+            "spotifyId": "7aJuG4TFXa2hmE4z1yxc3n",
+            "price": "$34",
+            "featured": true
+        },
+        {
+            "name": "Anti",
+            "artist": "Rihana",
+            "spotifyId": "4UlGauD7ROb3YbVOFMgW5u",
+            "price": "$38",
+            "featured": true
+        },
+        {
+            "name": "Alligator Bites Never Heal",
+            "artist": "Dochii",
+            "spotifyId": "60UzB8mOCMpc7xkuJE6Bwc",
+            "price": "$42",
+            "featured": false
+        },
+        {
+            "name": "Journals",
+            "artist": "Justin Bieber",
+            "spotifyId": "1rknZw4cyL9NInAqSwc8AA",
+            "price": "$31",
+            "featured": false
+        },
+        {
+            "name": "Man's Best Friend",
+            "artist": "Sabrina Carpenter",
+            "spotifyId": "1aqg30bNvLSWgShZgX4oop",
+            "price": "$33",
+            "featured": false
+        }
+    ]
+}
