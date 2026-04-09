@@ -4,17 +4,16 @@ import VinylDisc from '../components/VinylDisc';
 import AlbumCover from '../components/AlbumCover';
 import BottomNav from '../components/BottomNav';
 import { S, pageVariants, pageTransition } from '../styles';
-import { vinylItems } from '../data/vinylItems';
 
 const filters = ['ALL', 'HIP HOP', 'ROCK', 'JAZZ', 'ELECTRONIC', 'R&B'];
 
-export default function DiscoverScreen({ setScreen, setSelectedItem }) {
+export default function DiscoverScreen({ albums, setScreen, setSelectedItem }) {
   const [activeFilter, setActiveFilter] = useState('ALL');
 
   const filtered =
     activeFilter === 'ALL'
-      ? vinylItems
-      : vinylItems.filter((v) => v.genre.includes(activeFilter));
+      ? albums
+      : albums.filter((v) => v.genre.includes(activeFilter));
 
   function openDetails(item) {
     setSelectedItem(item);

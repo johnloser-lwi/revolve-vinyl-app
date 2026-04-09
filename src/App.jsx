@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import SplashScreen from './pages/SplashScreen';
 import HomeScreen from './pages/HomeScreen';
 import DetailScreen from './pages/DetailScreen';
 import DiscoverScreen from './pages/DiscoverScreen';
 import PlayerScreen from './pages/PlayerScreen';
 import LibraryScreen from './pages/LibraryScreen';
+import VinylDisc from './components/VinylDisc';
+import { useAlbums } from './data/useAlbums';
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [screen, setScreen] = useState('home');
   const [selectedItem, setSelectedItem] = useState(null);
+  const { albums, loading, error } = useAlbums();
 
   return (
     <div
@@ -54,16 +57,78 @@ export default function App() {
         <AnimatePresence mode="wait">
           {showSplash ? (
             <SplashScreen key="splash" onEnter={() => setShowSplash(false)} />
+          ) : loading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 24,
+                color: '#ece7e7',
+                background: '#111111',
+              }}
+            >
+              <VinylDisc size={100} center="#F05A00" />
+              <div
+                style={{
+                  fontSize: 10,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.3em',
+                  color: 'rgba(255,255,255,0.4)',
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                }}
+              >
+                Loading catalogue…
+              </div>
+            </motion.div>
+          ) : error ? (
+            <motion.div
+              key="error"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 12,
+                padding: 32,
+                color: '#ece7e7',
+                background: '#111111',
+                textAlign: 'center',
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontWeight: 900,
+                  fontSize: 22,
+                  textTransform: 'uppercase',
+                }}
+              >
+                Failed to load
+              </div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>{error.message}</div>
+            </motion.div>
           ) : screen === 'home' ? (
-            <HomeScreen key="home" setScreen={setScreen} setSelectedItem={setSelectedItem} />
+            <HomeScreen key="home" albums={albums} setScreen={setScreen} setSelectedItem={setSelectedItem} />
           ) : screen === 'details' ? (
             <DetailScreen key="details" item={selectedItem} setScreen={setScreen} />
           ) : screen === 'discover' ? (
-            <DiscoverScreen key="discover" setScreen={setScreen} setSelectedItem={setSelectedItem} />
+            <DiscoverScreen key="discover" albums={albums} setScreen={setScreen} setSelectedItem={setSelectedItem} />
           ) : screen === 'player' ? (
-            <PlayerScreen key="player" setScreen={setScreen} currentItem={selectedItem} />
+            <PlayerScreen key="player" setScreen={setScreen} currentItem={selectedItem} fallbackItem={albums[0]} />
           ) : screen === 'library' ? (
-            <LibraryScreen key="library" setScreen={setScreen} setSelectedItem={setSelectedItem} />
+            <LibraryScreen key="library" albums={albums} setScreen={setScreen} setSelectedItem={setSelectedItem} />
           ) : null}
         </AnimatePresence>
       </div>

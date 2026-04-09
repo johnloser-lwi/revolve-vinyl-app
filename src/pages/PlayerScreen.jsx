@@ -4,10 +4,8 @@ import { ArrowLeft, SkipBack, SkipForward, Play, Pause, Volume2, ShoppingBag } f
 import VinylDisc from '../components/VinylDisc';
 import BottomNav from '../components/BottomNav';
 import { S, pageVariants, pageTransition } from '../styles';
-import { vinylItems } from '../data/vinylItems';
-
-export default function PlayerScreen({ setScreen, currentItem }) {
-  const item = currentItem || vinylItems[0];
+export default function PlayerScreen({ setScreen, currentItem, fallbackItem }) {
+  const item = currentItem || fallbackItem;
   const [playing, setPlaying] = useState(true);
   const [progress, setProgress] = useState(42);
   const [volume, setVolume] = useState(75);

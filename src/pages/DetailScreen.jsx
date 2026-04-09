@@ -4,7 +4,6 @@ import { ArrowLeft, Heart, ShoppingBag, Play } from 'lucide-react';
 import VinylDisc from '../components/VinylDisc';
 import BottomNav from '../components/BottomNav';
 import { S, pageVariants, pageTransition } from '../styles';
-import { tracks } from '../data/vinylItems';
 
 export default function DetailScreen({ item, setScreen }) {
   const [liked, setLiked] = useState(false);
@@ -182,16 +181,16 @@ export default function DetailScreen({ item, setScreen }) {
                 overflow: 'hidden',
               }}
             >
-              {tracks.map((track, index) => (
+              {(item.tracks ?? []).map((track, index) => (
                 <motion.div
-                  key={track[0]}
+                  key={track.number}
                   whileHover={{ background: 'rgba(255,255,255,0.03)' }}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '14px 16px',
-                    borderBottom: index !== tracks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                    borderBottom: index !== item.tracks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                     cursor: 'pointer',
                   }}
                 >
@@ -204,11 +203,11 @@ export default function DetailScreen({ item, setScreen }) {
                         fontFamily: "'Barlow Condensed', sans-serif",
                       }}
                     >
-                      {track[0]}
+                      {track.number}
                     </div>
-                    <div style={{ fontSize: 13, fontWeight: 500 }}>{track[1]}</div>
+                    <div style={{ fontSize: 13, fontWeight: 500 }}>{track.name}</div>
                   </div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>{track[2]}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>{track.duration}</div>
                 </motion.div>
               ))}
             </div>

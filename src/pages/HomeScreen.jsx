@@ -4,10 +4,9 @@ import { Heart, Plus } from 'lucide-react';
 import VinylDisc from '../components/VinylDisc';
 import BottomNav from '../components/BottomNav';
 import { S, pageVariants, pageTransition } from '../styles';
-import { vinylItems } from '../data/vinylItems';
 
-export default function HomeScreen({ setScreen, setSelectedItem }) {
-  const featured = vinylItems.slice(0, 3);
+export default function HomeScreen({ albums, setScreen, setSelectedItem }) {
+  const featured = albums.filter((a) => a.featured);
 
   function openDetails(item) {
     setSelectedItem(item);
@@ -104,7 +103,7 @@ export default function HomeScreen({ setScreen, setSelectedItem }) {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 style={S.orangeBtn}
-                onClick={() => openDetails(vinylItems[0])}
+                onClick={() => openDetails(albums[0])}
               >
                 Purchase
               </motion.button>
@@ -124,13 +123,13 @@ export default function HomeScreen({ setScreen, setSelectedItem }) {
                   }}
                 >
                   <img
-                    src={vinylItems[0].cover || ''}
+                    src={albums[0]?.cover || ''}
                     alt=""
                     style={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      opacity: vinylItems[0].cover ? 1 : 0,
+                      opacity: albums[0]?.cover ? 1 : 0,
                     }}
                   />
                 </div>

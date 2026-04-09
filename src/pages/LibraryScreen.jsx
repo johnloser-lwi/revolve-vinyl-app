@@ -3,10 +3,9 @@ import { motion } from 'framer-motion';
 import AlbumCover from '../components/AlbumCover';
 import BottomNav from '../components/BottomNav';
 import { S, pageVariants, pageTransition } from '../styles';
-import { vinylItems } from '../data/vinylItems';
 
-export default function LibraryScreen({ setScreen, setSelectedItem }) {
-  const collection = vinylItems.slice(2);
+export default function LibraryScreen({ albums, setScreen, setSelectedItem }) {
+  const collection = albums.slice(2);
 
   function openDetails(item) {
     setSelectedItem(item);
