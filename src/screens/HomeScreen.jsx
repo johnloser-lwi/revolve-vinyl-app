@@ -20,7 +20,7 @@ export default function HomeScreen({ albums, setScreen, setSelectedItem }) {
         {/* ── Header ── */}
         <View style={styles.px}>
           <Image
-            source={require('../../assets/main-logo.png')}
+            source={{uri: 'main-logo.png'}}
             style={{ height: 28, width: 120 }}
             resizeMode="contain"
           />

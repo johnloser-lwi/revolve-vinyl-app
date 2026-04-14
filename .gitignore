@@ -34,3 +34,6 @@ lerna-debug.log*
 *.local
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# expo
+.expo

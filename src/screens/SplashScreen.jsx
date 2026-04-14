@@ -38,7 +38,7 @@ export default function SplashScreen({ onEnter }) {
         {/* Logo + taglines */}
         <View style={{ marginTop: 36, alignItems: 'center' }}>
           <Image
-            source={require('../../assets/main-logo.png')}
+            source={{uri: 'main-logo.png'}}
             style={{ height: 44, width: 180 }}
             resizeMode="contain"
           />
