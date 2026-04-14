@@ -5,7 +5,6 @@ import AlbumCover from '../components/AlbumCover';
 import BottomNav from '../components/BottomNav';
 import { S } from '../styles';
 
-const filters = ['ALL', 'HIP HOP', 'ROCK', 'JAZZ', 'ELECTRONIC', 'R&B'];
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 // Two columns with 20px padding each side and 14px gap between columns
 const CARD_WIDTH = (SCREEN_WIDTH - 40 - 14) / 2;
@@ -13,10 +12,12 @@ const CARD_WIDTH = (SCREEN_WIDTH - 40 - 14) / 2;
 export default function DiscoverScreen({ albums, setScreen, setSelectedItem }) {
   const [activeFilter, setActiveFilter] = useState('ALL');
 
+  const filters = ['ALL', ...new Set(albums.flatMap((a) => a.genre))];
+
   const filtered =
     activeFilter === 'ALL'
       ? albums
-      : albums.filter((v) => v.genre.includes(activeFilter));
+      : albums.filter((v) => v.genre.some((g) => g.includes(activeFilter)));
 
   function openDetails(item) {
     setSelectedItem(item);

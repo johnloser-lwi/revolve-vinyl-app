@@ -5,15 +5,15 @@ import AlbumCover from '../components/AlbumCover';
 import BottomNav from '../components/BottomNav';
 import { S, pageVariants, pageTransition } from '../styles';
 
-const filters = ['ALL', 'HIP HOP', 'ROCK', 'JAZZ', 'ELECTRONIC', 'R&B'];
-
 export default function DiscoverScreen({ albums, setScreen, setSelectedItem }) {
   const [activeFilter, setActiveFilter] = useState('ALL');
+
+  const filters = ['ALL', ...new Set(albums.flatMap((a) => a.genre))];
 
   const filtered =
     activeFilter === 'ALL'
       ? albums
-      : albums.filter((v) => v.genre.includes(activeFilter));
+      : albums.filter((v) => v.genre.some((g) => g.includes(activeFilter)));
 
   function openDetails(item) {
     setSelectedItem(item);

@@ -22,7 +22,7 @@ export function useAlbums() {
               id: idx + 1,
               artist: data.artist.toUpperCase(),
               title: data.name.toUpperCase(),
-              genre: data.genre.length ? data.genre.map((g) => g.toUpperCase()) : ['VINYL'],
+              genre: entry.genre.map((g) => g.toUpperCase()),
               price: entry.price,
               featured: entry.featured,
               color: '#d9d9d9',
