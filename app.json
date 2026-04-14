@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Revolve Vinyl",
+    "slug": "revolve-vinyl",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#111111"
+    },
+    "ios": {
+      "supportsTablet": false
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#111111"
+      }
+    }
+  }
+}

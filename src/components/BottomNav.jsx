@@ -1,79 +1,90 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Home, Compass, Disc3, Library } from 'lucide-react';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
+// Feather substitutes for the lucide icons used in the web version:
+//   Home     → 'home'
+//   Compass  → 'compass'
+//   Disc3    → 'music'   (Feather has no disc icon)
+//   Library  → 'book-open'
 const items = [
-  { id: 'home', icon: Home, label: 'Home' },
-  { id: 'discover', icon: Compass, label: 'Discover' },
-  { id: 'player', icon: Disc3, label: 'Player' },
-  { id: 'library', icon: Library, label: 'Library' },
+  { id: 'home', icon: 'home', label: 'Home' },
+  { id: 'discover', icon: 'compass', label: 'Discover' },
+  { id: 'player', icon: 'music', label: 'Player' },
+  { id: 'library', icon: 'book-open', label: 'Library' },
 ];
 
 export default function BottomNav({ active, setScreen }) {
   return (
-    <div style={{ padding: '8px 12px 12px', flexShrink: 0 }}>
-      <div
-        style={{
-          borderRadius: 24,
-          border: '1px solid rgba(255,255,255,0.1)',
-          background: 'rgba(21,21,21,0.95)',
-          backdropFilter: 'blur(20px)',
-          padding: '8px 4px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}
-      >
+    <View style={styles.wrapper}>
+      <View style={styles.bar}>
         {items.map((item) => {
-          const Icon = item.icon;
           const isActive = active === item.id;
           return (
-            <motion.button
+            <Pressable
               key={item.id}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setScreen(item.id)}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 3,
-                width: 68,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: isActive ? '#F05A00' : 'rgba(255,255,255,0.4)',
-                padding: '4px 0',
-              }}
+              onPress={() => setScreen(item.id)}
+              style={({ pressed }) => [styles.tabBtn, { opacity: pressed ? 0.7 : 1 }]}
             >
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: isActive ? 'rgba(240,90,0,0.15)' : 'transparent',
-                  transition: 'background 0.2s',
-                }}
-              >
-                <Icon size={18} />
-              </div>
-              <div
-                style={{
-                  fontSize: 9,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.2em',
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontWeight: 700,
-                }}
-              >
+              <View style={[styles.iconWrap, isActive && styles.iconWrapActive]}>
+                <Feather
+                  name={item.icon}
+                  size={18}
+                  color={isActive ? '#F05A00' : 'rgba(255,255,255,0.4)'}
+                />
+              </View>
+              <Text style={[styles.label, isActive && styles.labelActive]}>
                 {item.label}
-              </div>
-            </motion.button>
+              </Text>
+            </Pressable>
           );
         })}
-      </div>
-    </div>
+      </View>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    paddingHorizontal: 12,
+    paddingBottom: 12,
+    paddingTop: 8,
+  },
+  bar: {
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(21,21,21,0.95)',
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  tabBtn: {
+    alignItems: 'center',
+    gap: 3,
+    width: 68,
+    paddingVertical: 4,
+  },
+  iconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconWrapActive: {
+    backgroundColor: 'rgba(240,90,0,0.15)',
+  },
+  label: {
+    fontSize: 9,
+    textTransform: 'uppercase',
+    letterSpacing: 1.8,
+    fontFamily: 'BarlowCondensed_700Bold',
+    color: 'rgba(255,255,255,0.4)',
+  },
+  labelActive: {
+    color: '#F05A00',
+  },
+});

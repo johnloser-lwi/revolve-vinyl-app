@@ -1,64 +1,71 @@
+// Shared style objects — used via spread in component inline styles.
+// In React Native, Text doesn't inherit color from View, so each Text
+// component needs an explicit color. Use the `colors` object for consistency.
+
+export const colors = {
+  bg: '#111111',
+  bgDark: '#0d0d0d',
+  card: '#161616',
+  card2: '#151515',
+  orange: '#F05A00',
+  text: '#ece7e7',
+  textMuted: 'rgba(255,255,255,0.4)',
+  border: 'rgba(255,255,255,0.08)',
+};
+
 export const S = {
-  phone: {
-    width: '100%',
-    height: '100%',
-    background: '#111111',
-    color: '#ece7e7',
-    position: 'relative',
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  scroll: {
-    flex: 1,
-    overflowY: 'auto',
-    overflowX: 'hidden',
-  },
-  px: { paddingLeft: 20, paddingRight: 20 },
+  // Round icon button (back arrow, heart, etc.)
   iconBtn: {
     width: 40,
     height: 40,
-    borderRadius: '50%',
-    border: '1px solid rgba(255,255,255,0.1)',
-    background: 'rgba(255,255,255,0.05)',
-    display: 'flex',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     alignItems: 'center',
     justifyContent: 'center',
-    cursor: 'pointer',
-    color: '#ece7e7',
-    flexShrink: 0,
   },
+
+  // Orange pill button wrapper (use alongside orangeBtnText)
   orangeBtn: {
-    background: '#F05A00',
-    color: '#000',
-    border: 'none',
+    backgroundColor: '#F05A00',
     borderRadius: 999,
-    padding: '10px 20px',
-    fontFamily: "'Barlow Condensed', sans-serif",
-    fontWeight: 900,
-    fontSize: 13,
-    letterSpacing: '0.2em',
-    textTransform: 'uppercase',
-    cursor: 'pointer',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 6,
   },
+
+  // Text inside orange button
+  orangeBtnText: {
+    color: '#000',
+    fontFamily: 'BarlowCondensed_900Black',
+    fontSize: 13,
+    letterSpacing: 2.6,
+    textTransform: 'uppercase',
+  },
+
+  // Genre / filter pill wrapper
   tag: {
     borderRadius: 999,
-    border: '1px solid rgba(240,90,0,0.4)',
-    background: 'rgba(240,90,0,0.1)',
-    padding: '6px 14px',
+    borderWidth: 1,
+    borderColor: 'rgba(240,90,0,0.4)',
+    backgroundColor: 'rgba(240,90,0,0.1)',
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+
+  // Text inside tag pill
+  tagText: {
     fontSize: 11,
-    fontWeight: 700,
-    letterSpacing: '0.2em',
+    fontFamily: 'BarlowCondensed_700Bold',
+    letterSpacing: 2.2,
     textTransform: 'uppercase',
     color: '#ff7f2f',
-    fontFamily: "'Barlow Condensed', sans-serif",
   },
-};
 
-export const pageVariants = {
-  initial: { opacity: 0, x: 30 },
-  animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: -30 },
+  // Horizontal padding used on most screen content
+  px: { paddingHorizontal: 20 },
 };
-
-export const pageTransition = { duration: 0.28, ease: [0.4, 0, 0.2, 1] };

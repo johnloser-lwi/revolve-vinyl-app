@@ -1,92 +1,121 @@
-import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useMemo } from 'react';
+import { View, Image, Animated, Easing } from 'react-native';
 
+// Web version used CSS conic-gradient and mixBlendMode for the shimmer ring —
+// neither is supported in React Native. The rings and center label are rebuilt
+// with plain Views, giving the same structural look.
 export default function VinylDisc({ size = 220, center = '#F05A00', rotating = true, cover = null }) {
+  const spinValue = useRef(new Animated.Value(0)).current;
+  const loopRef = useRef(null);
+
+  useEffect(() => {
+    if (rotating) {
+      spinValue.setValue(0);
+      loopRef.current = Animated.loop(
+        Animated.timing(spinValue, {
+          toValue: 1,
+          duration: 9000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        })
+      );
+      loopRef.current.start();
+    } else {
+      loopRef.current?.stop();
+    }
+    return () => loopRef.current?.stop();
+  }, [rotating]);
+
+  const rotate = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
   const rings = useMemo(() => Array.from({ length: 11 }, (_, i) => i), []);
+  const ringStep = (size - 70) / 30;
 
   return (
-    <motion.div
-      style={{ width: size, height: size, position: 'relative', borderRadius: '50%', flexShrink: 0 }}
-      animate={rotating ? { rotate: 360 } : undefined}
-      transition={rotating ? { repeat: Infinity, duration: 9, ease: 'linear' } : undefined}
+    <Animated.View
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size / 2,
+        flexShrink: 0,
+        transform: [{ rotate }],
+      }}
     >
-      <div
+      {/* Base disc */}
+      <View
         style={{
           position: 'absolute',
-          inset: 0,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle at 50% 50%, #0b0b0b 0%, #090909 32%, #151515 56%, #0a0a0a 100%)',
-          boxShadow: '0 28px 60px rgba(0,0,0,0.5)',
+          top: 0, right: 0, bottom: 0, left: 0,
+          borderRadius: size / 2,
+          backgroundColor: '#0d0d0d',
           overflow: 'hidden',
         }}
       >
         {cover && (
-          <img
-            src={cover}
-            alt="album"
+          <Image
+            source={{ uri: cover }}
             style={{
               position: 'absolute',
-              inset: '10%',
-              borderRadius: '50%',
-              width: '80%',
-              height: '80%',
-              objectFit: 'cover',
+              top: size * 0.1,
+              left: size * 0.1,
+              width: size * 0.8,
+              height: size * 0.8,
+              borderRadius: size * 0.4,
               opacity: 0.35,
-              mixBlendMode: 'luminosity',
             }}
+            resizeMode="cover"
           />
         )}
-      </div>
+      </View>
 
-      <div
+      {/* Grooves */}
+      {rings.map((ring) => {
+        const inset = Math.round(16 + ring * ringStep);
+        return (
+          <View
+            key={ring}
+            style={{
+              position: 'absolute',
+              top: inset,
+              right: inset,
+              bottom: inset,
+              left: inset,
+              borderRadius: (size - inset * 2) / 2,
+              borderWidth: 1,
+              borderColor: 'rgba(255,255,255,0.12)',
+            }}
+          />
+        );
+      })}
+
+      {/* Center label */}
+      <View
         style={{
           position: 'absolute',
-          inset: 0,
-          borderRadius: '50%',
-          background:
-            'conic-gradient(from 0deg, rgba(255,255,255,0.22), rgba(255,255,255,0.02), rgba(255,255,255,0.18), rgba(255,255,255,0.02), rgba(255,255,255,0.22))',
-          mixBlendMode: 'screen',
-          opacity: 0.8,
-        }}
-      />
-
-      {rings.map((ring) => (
-        <div
-          key={ring}
-          style={{
-            position: 'absolute',
-            borderRadius: '50%',
-            border: '1px solid rgba(255,255,255,0.12)',
-            inset: 16 + ring * ((size - 70) / 30),
-          }}
-        />
-      ))}
-
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%,-50%)',
+          left: size / 2 - size * 0.11,
+          top: size / 2 - size * 0.11,
           width: size * 0.22,
           height: size * 0.22,
-          borderRadius: '50%',
-          background: center,
-          boxShadow: `0 0 20px ${center}55, inset 0 0 0 1px rgba(255,255,255,0.08)`,
+          borderRadius: size * 0.11,
+          backgroundColor: center,
         }}
       />
-      <div
+
+      {/* Spindle hole */}
+      <View
         style={{
           position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%,-50%)',
+          left: size / 2 - size * 0.025,
+          top: size / 2 - size * 0.025,
           width: size * 0.05,
           height: size * 0.05,
-          borderRadius: '50%',
-          background: '#f0f0f0',
+          borderRadius: size * 0.025,
+          backgroundColor: '#f0f0f0',
         }}
       />
-    </motion.div>
+    </Animated.View>
   );
 }
